@@ -7,138 +7,127 @@
 ```mermaid
 erDiagram
     users {
-        bigint id PK
+        int id PK
         string name
         string email UK
         string password
-        timestamps
     }
 
     employees {
-        bigint id PK
+        int id PK
         string employee_id UK
-        bigint user_id FK
+        int user_id FK
         string first_name
         string last_name
         string email UK
         string phone
         date date_of_birth
-        enum gender
-        text address
-        bigint department_id FK
-        bigint position_id FK
+        string gender
+        string address
+        int department_id FK
+        int position_id FK
         date hire_date
         date end_date
-        decimal salary
-        enum status
+        float salary
+        string status
         string photo
-        timestamps
     }
 
     departments {
-        bigint id PK
+        int id PK
         string name
         string code UK
-        text description
-        bigint head_id FK
-        timestamps
+        string description
+        int head_id FK
     }
 
     positions {
-        bigint id PK
+        int id PK
         string name
         string code UK
-        decimal min_salary
-        decimal max_salary
-        text description
-        timestamps
+        float min_salary
+        float max_salary
+        string description
     }
 
     shifts {
-        bigint id PK
+        int id PK
         string name
         string code UK
-        time start_time
-        time end_time
-        decimal break_duration
+        string start_time
+        string end_time
+        float break_duration
         boolean is_active
-        timestamps
     }
 
     schedules {
-        bigint id PK
-        bigint employee_id FK
-        bigint shift_id FK
+        int id PK
+        int employee_id FK
+        int shift_id FK
         date date
-        enum status
-        text notes
-        timestamps
+        string status
+        string notes
     }
 
     attendance {
-        bigint id PK
-        bigint employee_id FK
+        int id PK
+        int employee_id FK
         date date
-        timestamp clock_in
-        timestamp clock_out
-        decimal hours_worked
-        enum status
-        text notes
-        timestamps
+        date clock_in
+        date clock_out
+        float hours_worked
+        string status
+        string notes
     }
 
     leave_types {
-        bigint id PK
+        int id PK
         string name
         string code UK
-        decimal default_days
+        float default_days
         boolean is_paid
         boolean is_active
-        text description
-        timestamps
+        string description
     }
 
     leave_requests {
-        bigint id PK
-        bigint employee_id FK
-        bigint leave_type_id FK
+        int id PK
+        int employee_id FK
+        int leave_type_id FK
         date start_date
         date end_date
-        decimal days
-        text reason
-        enum status
-        bigint approved_by FK
-        text approval_notes
-        timestamps
+        float days
+        string reason
+        string status
+        int approved_by FK
+        string approval_notes
     }
 
     overtimes {
-        bigint id PK
-        bigint employee_id FK
+        int id PK
+        int employee_id FK
         date date
-        time start_time
-        time end_time
-        decimal hours
-        decimal rate_multiplier
-        text reason
-        enum status
-        bigint approved_by FK
-        timestamps
+        string start_time
+        string end_time
+        float hours
+        float rate_multiplier
+        string reason
+        string status
+        int approved_by FK
     }
 
     payrolls {
-        bigint id PK
-        bigint employee_id FK
+        int id PK
+        int employee_id FK
         string period
-        decimal basic_salary
-        decimal overtime_pay
-        decimal allowances
-        decimal deductions
-        decimal tax
-        decimal net_salary
-        enum status
+        float basic_salary
+        float overtime_pay
+        float allowances
+        float deductions
+        float tax
+        float net_salary
+        string status
         date paid_at
-        timestamps
     }
 
     users ||--o| employees : "has profile"
