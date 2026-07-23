@@ -6,6 +6,141 @@
 
 ```mermaid
 erDiagram
+    users {
+        bigint id PK
+        string name
+        string email UK
+        string password
+        timestamps
+    }
+
+    employees {
+        bigint id PK
+        string employee_id UK
+        bigint user_id FK
+        string first_name
+        string last_name
+        string email UK
+        string phone
+        date date_of_birth
+        enum gender
+        text address
+        bigint department_id FK
+        bigint position_id FK
+        date hire_date
+        date end_date
+        decimal salary
+        enum status
+        string photo
+        timestamps
+    }
+
+    departments {
+        bigint id PK
+        string name
+        string code UK
+        text description
+        bigint head_id FK
+        timestamps
+    }
+
+    positions {
+        bigint id PK
+        string name
+        string code UK
+        decimal min_salary
+        decimal max_salary
+        text description
+        timestamps
+    }
+
+    shifts {
+        bigint id PK
+        string name
+        string code UK
+        time start_time
+        time end_time
+        decimal break_duration
+        boolean is_active
+        timestamps
+    }
+
+    schedules {
+        bigint id PK
+        bigint employee_id FK
+        bigint shift_id FK
+        date date
+        enum status
+        text notes
+        timestamps
+    }
+
+    attendance {
+        bigint id PK
+        bigint employee_id FK
+        date date
+        timestamp clock_in
+        timestamp clock_out
+        decimal hours_worked
+        enum status
+        text notes
+        timestamps
+    }
+
+    leave_types {
+        bigint id PK
+        string name
+        string code UK
+        decimal default_days
+        boolean is_paid
+        boolean is_active
+        text description
+        timestamps
+    }
+
+    leave_requests {
+        bigint id PK
+        bigint employee_id FK
+        bigint leave_type_id FK
+        date start_date
+        date end_date
+        decimal days
+        text reason
+        enum status
+        bigint approved_by FK
+        text approval_notes
+        timestamps
+    }
+
+    overtimes {
+        bigint id PK
+        bigint employee_id FK
+        date date
+        time start_time
+        time end_time
+        decimal hours
+        decimal rate_multiplier
+        text reason
+        enum status
+        bigint approved_by FK
+        timestamps
+    }
+
+    payrolls {
+        bigint id PK
+        bigint employee_id FK
+        string period
+        decimal basic_salary
+        decimal overtime_pay
+        decimal allowances
+        decimal deductions
+        decimal tax
+        decimal net_salary
+        enum status
+        date paid_at
+        timestamps
+    }
+
     users ||--o| employees : "has profile"
     departments ||--o{ employees : "has members"
     positions ||--o{ employees : "has holders"
@@ -23,153 +158,6 @@ erDiagram
     employees ||--o{ overtimes : "approves"
 
     employees ||--o{ payrolls : "receives"
-
-    users {
-        bigint id PK
-        string name
-        string email UK
-        timestamp email_verified_at
-        string password
-        string remember_token
-        timestamps
-    }
-
-    employees {
-        bigint id PK
-        string employee_id UK
-        bigint user_id FK
-        string first_name
-        string last_name
-        string email UK
-        string phone
-        date date_of_birth
-        enum gender "male|female|other"
-        text address
-        bigint department_id FK
-        bigint position_id FK
-        date hire_date
-        date end_date
-        decimal salary
-        enum status "active|inactive|terminated"
-        string photo
-        timestamps
-        soft_deletes
-    }
-
-    departments {
-        bigint id PK
-        string name
-        string code UK
-        text description
-        bigint head_id FK
-        timestamps
-        soft_deletes
-    }
-
-    positions {
-        bigint id PK
-        string name
-        string code UK
-        decimal min_salary
-        decimal max_salary
-        text description
-        timestamps
-        soft_deletes
-    }
-
-    shifts {
-        bigint id PK
-        string name
-        string code UK
-        time start_time
-        time end_time
-        decimal break_duration
-        boolean is_active
-        timestamps
-        soft_deletes
-    }
-
-    schedules {
-        bigint id PK
-        bigint employee_id FK
-        bigint shift_id FK
-        date date
-        enum status "scheduled|confirmed|absent"
-        text notes
-        timestamps
-        soft_deletes
-    }
-
-    attendance {
-        bigint id PK
-        bigint employee_id FK
-        date date
-        timestamp clock_in
-        timestamp clock_out
-        decimal hours_worked
-        enum status "present|late|absent|leave"
-        text notes
-        timestamps
-        soft_deletes
-    }
-
-    leave_types {
-        bigint id PK
-        string name
-        string code UK
-        decimal default_days
-        boolean is_paid
-        boolean is_active
-        text description
-        timestamps
-        soft_deletes
-    }
-
-    leave_requests {
-        bigint id PK
-        bigint employee_id FK
-        bigint leave_type_id FK
-        date start_date
-        date end_date
-        decimal days
-        text reason
-        enum status "pending|approved|rejected"
-        bigint approved_by FK
-        text approval_notes
-        timestamps
-        soft_deletes
-    }
-
-    overtimes {
-        bigint id PK
-        bigint employee_id FK
-        date date
-        time start_time
-        time end_time
-        decimal hours
-        decimal rate_multiplier
-        text reason
-        enum status "pending|approved|rejected"
-        bigint approved_by FK
-        timestamps
-        soft_deletes
-    }
-
-    payrolls {
-        bigint id PK
-        bigint employee_id FK
-        string period
-        decimal basic_salary
-        decimal overtime_pay
-        decimal allowances
-        decimal deductions
-        decimal tax
-        decimal net_salary
-        enum status "draft|processed|paid"
-        date paid_at
-        timestamps
-        soft_deletes
-    }
 ```
 
 ## Ringkasan Relasi
